@@ -1,0 +1,10 @@
+<div class="login-container">
+  <h2>Login</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <input type="text" formControlName="username" placeholder="Username" />
+    <input type="password" formControlName="password" placeholder="Password" />
+    <button type="submit">Login</button>
+  </form>
+
+  <!-- <p *ngIf="error$ | async" class="error">❌ Invalid username or password</p> -->
+</div>

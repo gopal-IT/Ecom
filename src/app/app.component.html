@@ -1,0 +1,22 @@
+<div *ngIf="!cart">
+<header class="header" >
+  <div class="container">
+      <div class="header-content">
+          <div class="logo">MegaMart</div>
+          <div class="search-bar">
+              <input type="text" placeholder="Search essentials, groceries and more...">
+          </div>
+          <div class="header-actions">
+             <button><a routerLink='home'> Home </a></button>
+             <button><a routerLink='bas'>📦 Track your order</a></button>
+             <button><a routerLink='about'>About us</a></button>
+             <button><a routerLink='login'>Sign Up/Sign In</a></button>
+             <button><a routerLink='cart'>🛒 Cart</a></button>
+          </div>
+      </div>
+  </div>
+</header>
+</div>
+<div class="content">
+  <router-outlet></router-outlet>
+</div>

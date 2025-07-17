@@ -1,0 +1,638 @@
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 20px 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        font-size: 28px;
+        font-weight: bold;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #666;
+        font-size: 14px;
+    }
+
+    .breadcrumb a {
+        color: #667eea;
+        text-decoration: none;
+    }
+
+    /* Main Content */
+    .main-content {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: 30px;
+    }
+
+    /* Cart Section */
+    .cart-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .cart-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .items-count {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    /* Cart Items */
+    .cart-item {
+        display: flex;
+        gap: 20px;
+        padding: 25px 0;
+        border-bottom: 1px solid #f0f0f0;
+        transition: all 0.3s ease;
+    }
+
+    .cart-item:hover {
+        background: rgba(102, 126, 234, 0.05);
+        border-radius: 15px;
+        padding: 25px 15px;
+    }
+
+    .item-image {
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: #666;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .item-image::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.6s;
+    }
+
+    .cart-item:hover .item-image::before {
+        transform: translateX(100%);
+    }
+
+    .item-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .item-name {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .item-specs {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .item-actions {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #f8f9fa;
+        padding: 8px 12px;
+        border-radius: 25px;
+        border: 2px solid #e9ecef;
+    }
+
+    .quantity-btn {
+        background: none;
+        border: none;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        color: #667eea;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+
+    .quantity-btn:hover {
+        background: #667eea;
+        color: white;
+    }
+
+    .quantity-input {
+        width: 40px;
+        text-align: center;
+        border: none;
+        background: none;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .remove-btn {
+        background: none;
+        border: none;
+        color: #dc3545;
+        font-size: 14px;
+        cursor: pointer;
+        padding: 5px 10px;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .remove-btn:hover {
+        background: #dc3545;
+        color: white;
+    }
+
+    .item-price {
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .current-price {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .original-price {
+        font-size: 14px;
+        color: #999;
+        text-decoration: line-through;
+    }
+
+    .discount {
+        color: #28a745;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    /* Summary Section */
+    .summary-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        height: fit-content;
+        position: sticky;
+        top: 20px;
+    }
+
+    .summary-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding: 10px 0;
+    }
+
+    .summary-row.total {
+        border-top: 2px solid #f0f0f0;
+        padding-top: 20px;
+        margin-top: 20px;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .summary-row.savings {
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    /* Promo Code */
+    .promo-section {
+        margin: 25px 0;
+        padding: 20px;
+        background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        border-radius: 15px;
+        border: 2px dashed #667eea;
+    }
+
+    .promo-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .promo-input input {
+        flex: 1;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 14px;
+    }
+
+    .promo-input button {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: transform 0.3s ease;
+    }
+
+    .promo-input button:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Checkout Button */
+    .checkout-btn {
+        width: 100%;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 18px;
+        border-radius: 15px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .checkout-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.6s;
+    }
+
+    .checkout-btn:hover::before {
+        left: 100%;
+    }
+
+    .checkout-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Security Badge */
+    .security-badge {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+        color: #666;
+        font-size: 12px;
+    }
+
+    /* Empty Cart */
+    .empty-cart {
+        text-align: center;
+        padding: 60px 0;
+        color: #666;
+    }
+
+    .empty-cart-icon {
+        font-size: 80px;
+        margin-bottom: 20px;
+    }
+
+    .continue-shopping {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+    }
+
+    .continue-shopping:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .main-content {
+            grid-template-columns: 1fr;
+        }
+
+        .cart-item {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .item-image {
+            width: 100%;
+            height: 200px;
+        }
+
+        .item-actions {
+            justify-content: space-between;
+        }
+
+        .header-content {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cart-header {
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+        }
+    }
+
+    /* Animations */
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .cart-item {
+        animation: slideIn 0.5s ease-out;
+    }
+
+    /* Loading State */
+    .loading {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    .spinner {
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #667eea;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+        display: inline-block;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">MegaMart</div>
+            <div class="breadcrumb">
+                <a href="home.component.html">Home</a> > <a href="#">Shop</a> > <span>Shopping Cart</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Cart Section -->
+        <div class="cart-section">
+            <div class="cart-header">
+                <h2 class="cart-title">Shopping Cart</h2>
+                <div class="items-count" id="itemsCount">4 items</div>
+            </div>
+
+            <div id="cartItems">
+                <!-- Cart Item 1 -->
+                <div class="cart-item" data-id="1">
+                    <div class="item-image">iPhone 14 Pro</div>
+                    <div class="item-details">
+                        <div class="item-name">iPhone 14 Pro</div>
+                        <div class="item-specs">256GB, Deep Purple, Unlocked</div>
+                        <div class="item-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" (click)="updateQuantity(1, -1)">-</button>
+                                <input type="number" class="quantity-input" value="1" min="1" readonly>
+                                <button class="quantity-btn" (click)="updateQuantity(1, 1)">+</button>
+                            </div>
+                            <button class="remove-btn" (click)="removeItem(1)">Remove</button>
+                        </div>
+                    </div>
+                    <div class="item-price">
+                        <div class="current-price">₹89,999</div>
+                        <div class="original-price">₹99,999</div>
+                        <div class="discount">10% off</div>
+                    </div>
+                </div>
+
+                <!-- Cart Item 2 -->
+                <div class="cart-item" data-id="2">
+                    <div class="item-image">AirPods Pro</div>
+                    <div class="item-details">
+                        <div class="item-name">AirPods Pro (2nd Gen)</div>
+                        <div class="item-specs">Active Noise Cancellation, White</div>
+                        <div class="item-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" (click)="updateQuantity(2, -1)">-</button>
+                                <input type="number" class="quantity-input" value="2" min="1" readonly>
+                                <button class="quantity-btn" (click)="updateQuantity(2, 1)">+</button>
+                            </div>
+                            <button class="remove-btn" (click)="removeItem(2)">Remove</button>
+                        </div>
+                    </div>
+                    <div class="item-price">
+                        <div class="current-price">₹24,999</div>
+                        <div class="original-price">₹26,999</div>
+                        <div class="discount">7% off</div>
+                    </div>
+                </div>
+
+                <!-- Cart Item 3 -->
+                <div class="cart-item" data-id="3">
+                    <div class="item-image">MacBook Air</div>
+                    <div class="item-details">
+                        <div class="item-name">MacBook Air M2</div>
+                        <div class="item-specs">13-inch, 8GB RAM, 256GB SSD, Midnight</div>
+                        <div class="item-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" (click)="updateQuantity(3, -1)">-</button>
+                                <input type="number" class="quantity-input" value="1" min="1" readonly>
+                                <button class="quantity-btn" (click)="updateQuantity(3, 1)">+</button>
+                            </div>
+                            <button class="remove-btn" (click)="removeItem(3)">Remove</button>
+                        </div>
+                    </div>
+                    <div class="item-price">
+                        <div class="current-price">₹1,14,999</div>
+                        <div class="original-price">₹1,19,999</div>
+                        <div class="discount">4% off</div>
+                    </div>
+                </div>
+
+                <!-- Cart Item 4 -->
+                <div class="cart-item" data-id="4">
+                    <div class="item-image">Apple Watch</div>
+                    <div class="item-details">
+                        <div class="item-name">Apple Watch Series 9</div>
+                        <div class="item-specs">45mm, GPS, Midnight Aluminum</div>
+                        <div class="item-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" (click)="updateQuantity(4, -1)">-</button>
+                                <input type="number" class="quantity-input" value="1" min="1" readonly>
+                                <button class="quantity-btn" (click)="updateQuantity(4, 1)">+</button>
+                            </div>
+                            <button class="remove-btn" (click)="removeItem(4)">Remove</button>
+                        </div>
+                    </div>
+                    <div class="item-price">
+                        <div class="current-price">₹41,999</div>
+                        <div class="original-price">₹44,999</div>
+                        <div class="discount">6% off</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty Cart Message (hidden by default) -->
+            <div id="emptyCart" class="empty-cart" style="display: none;">
+                <div class="empty-cart-icon">🛒</div>
+                <h3>Your cart is empty</h3>
+                <p>Add some items to get started!</p>
+                <button class="continue-shopping" onclick="window.location.href='#'">Continue Shopping</button>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="summary-section">
+            <h3 class="summary-title">Order Summary</h3>
+            
+            <div class="summary-row">
+                <span>Subtotal (5 items)</span>
+                <span id="subtotal">₹2,96,996</span>
+            </div>
+            
+            <div class="summary-row">
+                <span>Shipping</span>
+                <span id="shipping">FREE</span>
+            </div>
+            
+            <div class="summary-row">
+                <span>Tax</span>
+                <span id="tax">₹26,729</span>
+            </div>
+            
+            <div class="summary-row savings">
+                <span>You Save</span>
+                <span id="savings">₹26,001</span>
+            </div>
+
+            <!-- Promo Code Section -->
+            <div class="promo-section">
+                <div>🎫 Have a promo code?</div>
+                <div class="promo-input">
+                    <input type="text" placeholder="Enter promo code" id="promoCode">
+                    <button (click)="applyPromo()">Apply</button>
+                </div>
+            </div>
+            
+            <div class="summary-row total">
+                <span>Total</span>
+                <span id="total">₹3,23,725</span>
+            </div>
+            
+            <button class="checkout-btn" onclick="proceedToCheckout()">
+                Proceed to Checkout
+            </button>
+            
+            <div class="security-badge">
+                🔒 Secure checkout with SSL encryption
+            </div>
+        </div>
+    </div>
+</div>
